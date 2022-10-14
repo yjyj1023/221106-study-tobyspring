@@ -1,8 +1,10 @@
-# Pojo JAVA DB연동
+package com.db.dao;
 
-## Code
+import com.db.domain.User;
 
-```java
+import java.sql.*;
+import java.util.Map;
+
 public class Dao {
     public void add() throws ClassNotFoundException, SQLException {
         Map<String, String> env = System.getenv();
@@ -52,34 +54,3 @@ public class Dao {
         dao.add();
     }
 }
-```
-
-
-## Factory를 Bean으로
-
-```java
-@Configuration
-public class UserDaoFactory2 {
-
-    @Bean
-    public UserDao05Interface userDao05Interface() {
-        return new UserDao05Interface(() -> {
-            return null;
-        });
-    }
-
-}
-
-public class Main {
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext ctx =
-                new AnnotationConfigApplicationContext(UserDaoFactory2.class);
-        UserDao05Interface userDao = ctx.getBean("userDao05Interface", UserDao05Interface.class);
-
-    }
-}
-```
-
-### 참고 
-https://github.com/Kyeongrok/toby_spring
-
