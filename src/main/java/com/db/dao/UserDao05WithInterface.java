@@ -3,13 +3,28 @@ package com.db.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class UserDao05Interface {
+public class UserDao05WithInterface {
 
     private ConnectionMaker connectionMaker;
 
-    public UserDao05Interface(ConnectionMaker connectionMaker) {
+    public UserDao05WithInterface(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
+    }
+
+
+    public void createTable() throws SQLException, ClassNotFoundException {
+
+        Connection c = connectionMaker.getConnection();
+        Statement stmt = c.createStatement();
+        String sql = "CREATE TABLE IF NOT EXISTS users (\n"
+                + "	id VARCHAR(45) NOT NULL,\n"
+                + "	name VARCHAR(45) NOT NULL,\n"
+                + "	password VARCHAR(45)\n"
+                + ");";
+        stmt.execute(sql);
+
     }
 
     public void add() throws ClassNotFoundException, SQLException {
@@ -30,9 +45,8 @@ public class UserDao05Interface {
     }
 
     public static void main (String[]args) throws SQLException, ClassNotFoundException {
-        UserDao05Interface dao = new UserDao05Interface(() -> {
+        UserDao05WithInterface dao = new UserDao05WithInterface(() -> {
             return null;
         });
-        dao.add();
     }
 }
