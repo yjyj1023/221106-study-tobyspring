@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class UserDao05WithInterface {
 
-    private ConnectionMaker connectionMaker;
+    private ConnectionMaker connectionMaker = new MySqlConnectionMaker();
 
     public UserDao05WithInterface(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
