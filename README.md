@@ -3,53 +3,65 @@
 ## Code
 
 ```java
-public class Dao {
-    public void add() throws ClassNotFoundException, SQLException {
+public class UserDao {
+    public void add() {
         Map<String, String> env = System.getenv();
-        String dbPassword = env.get("DB_PASSWORD");
+        try {
+            // DB접속 (ex sql workbeanch실행)
+            Connection c = DriverManager.getConnection(env.get("DB_HOST"),
+                    env.get("DB_USER"), env.get("DB_PASSWORD"));
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/likelion-db", "root", dbPassword);
-        PreparedStatement ps = c.prepareStatement(
-                "insert into users(id, name, password) values(?, ?, ?)");
-        ps.setString(1, "01");
-        ps.setString(2, "Kyeongrok");
-        ps.setString(3, "password");
+            // Query문 작성
+            PreparedStatement pstmt = c.prepareStatement("INSERT INTO users(id, name, password) VALUES(?,?,?);");
+            pstmt.setString(1, "6");
+            pstmt.setString(2, "Mimi");
+            pstmt.setString(3, "1q2w3e4r");
 
-        ps.executeUpdate();
+            // Query문 실행
+            pstmt.executeUpdate();
 
-        ps.close();
-        c.close();
+            pstmt.close();
+            c.close();
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException {
+    public User findById(String id) {
         Map<String, String> env = System.getenv();
-        String dbPassword = env.get("DB_PASSWORD");
+        Connection c;
+        try {
+            // DB접속 (ex sql workbeanch실행)
+             c = DriverManager.getConnection(env.get("DB_HOST"),
+                    env.get("DB_USER"), env.get("DB_PASSWORD"));
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/likelion-db", "root", dbPassword);
+            // Query문 작성
+            PreparedStatement pstmt = c.prepareStatement("SELECT * FROM users WHERE id = ?");
+            pstmt.setString(1, id);
 
-        PreparedStatement ps = c.prepareStatement(
-                "select * from users where id = ?");
-        ps.setString(1, id);
+            // Query문 실행
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            User user = new User(rs.getString("id"), rs.getString("name"),
+                    rs.getString("name"));
 
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        User user = new User(rs.getString("id"), rs.getString("name"), rs.getString("password"));
+            rs.close();
+            pstmt.close();
+            c.close();
 
-        rs.close();
-        ps.close();
-        c.close();
+            return user;
 
-        return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void main (String[]args) throws SQLException, ClassNotFoundException {
-        Dao dao = new Dao();
-        dao.add();
+    public static void main(String[] args) {
+        UserDao userDao = new UserDao();
+//        userDao.add();
+        User user = userDao.findById("6");
+        System.out.println(user.getName());
     }
 }
 ```
