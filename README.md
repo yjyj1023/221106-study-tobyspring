@@ -92,6 +92,24 @@ public class Main {
 }
 ```
 
+### Test에서 Factory의 Configuration사용
+```java
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = UserDaoFactory2.class)
+public class UserDao05WithInterfaceTest {
+
+    @Autowired
+    ApplicationContext context;
+
+    @Test
+    public void testName() throws SQLException, ClassNotFoundException {
+        UserDao05WithInterface userDao = context.getBean("userDao", UserDao05WithInterface.class);
+        userDao.add();
+    }
+}
+```
+
+
 ### 참고 
 https://github.com/Kyeongrok/toby_spring
 
