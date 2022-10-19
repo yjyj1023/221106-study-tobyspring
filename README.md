@@ -74,7 +74,7 @@ public class UserDao {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             User user = new User(rs.getString("id"), rs.getString("name"),
-                    rs.getString("name"));
+                    rs.getString("password"));
 
             rs.close();
             pstmt.close();
