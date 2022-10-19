@@ -139,6 +139,20 @@ public class UserDao05WithInterfaceTest {
 }
 ```
 
+### StatementStrategy Interface
+
+StatementStrategy Interface를 적용하면 아래와 같이 반복되는 부분을 한단계 추상화 할 수 있습니다.
+
+```java
+PreparedStatement pstmt = conn.prepareStatement("delete from users");
+```
+
+```java
+public interface StatementStrategy {
+    PreparedStatement makePreparedStatement(Connection c);
+}
+```
+
 
 ### 참고 
 https://github.com/Kyeongrok/toby_spring
