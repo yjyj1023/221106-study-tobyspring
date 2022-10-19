@@ -96,6 +96,21 @@ public class UserDao {
 }
 ```
 
+### Spring Boot dependency추가
+
+spring-boot-starter-jdbc
+
+spring-boot-starter-test
+
+```java
+dependencies {
+    implementation 'mysql:mysql-connector-java:8.0.30'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.4'
+    implementation 'org.springframework.boot:spring-boot-starter-test:2.7.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+```
 
 ## Factory를 Bean으로
 
