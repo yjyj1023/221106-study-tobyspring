@@ -37,7 +37,7 @@ import java.sql.*;
 import java.util.Map;
 
 public class UserDao {
-    public void add() {
+    public void add(User user) {
         Map<String, String> env = System.getenv();
         try {
             // DB접속 (ex sql workbeanch실행)
@@ -46,9 +46,9 @@ public class UserDao {
 
             // Query문 작성
             PreparedStatement pstmt = c.prepareStatement("INSERT INTO users(id, name, password) VALUES(?,?,?);");
-            pstmt.setString(1, "6");
-            pstmt.setString(2, "Mimi");
-            pstmt.setString(3, "1q2w3e4r");
+            pstmt.setString(1, user.getId());
+            pstmt.setString(2, user.getName());
+            pstmt.setString(3, user.getPassword());
 
             // Query문 실행
             pstmt.executeUpdate();
@@ -60,7 +60,7 @@ public class UserDao {
             throw new RuntimeException(e);
         }
     }
-
+    
     public User findById(String id) {
         Map<String, String> env = System.getenv();
         Connection c;
