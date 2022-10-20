@@ -33,6 +33,9 @@ public class User {
 UserDao.java
 
 ```java
+import java.sql.*;
+import java.util.Map;
+
 public class UserDao {
     public void add() {
         Map<String, String> env = System.getenv();
