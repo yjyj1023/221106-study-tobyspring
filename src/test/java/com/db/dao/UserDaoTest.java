@@ -12,10 +12,15 @@ class UserDaoTest {
         ConnectionMaker c = new AWSConnectionMaker();
         UserDao userDao = new UserDao(c);
 
-        String id = "1";
 
+        userDao.deleteAll();
+        Assertions.assertEquals(0, userDao.getCount());
+
+        String id = "1";
         User user = new User(id,"YeonJae","1234");
         userDao.add(user);
+
+        Assertions.assertEquals(1, userDao.getCount());
 
         User seletedUser = userDao.get(id);
 
