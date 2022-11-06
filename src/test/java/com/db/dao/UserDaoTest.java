@@ -9,9 +9,7 @@ import java.sql.SQLException;
 class UserDaoTest {
     @Test
     public void addAndSelect() throws SQLException, ClassNotFoundException {
-        ConnectionMaker c = new AWSConnectionMaker();
-        UserDao userDao = new UserDao(c);
-
+        UserDao userDao = new DaoFactory().userDao();
 
         userDao.deleteAll();
         Assertions.assertEquals(0, userDao.getCount());
